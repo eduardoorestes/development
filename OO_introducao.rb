@@ -187,4 +187,3 @@ ROTAS
     PATH -> é a url, que é usada no navegador
     CONTROLLER # ACTION -> é o controller e a action
 
-    
