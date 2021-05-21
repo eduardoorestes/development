@@ -1,0 +1,6 @@
+# onde vai procurar as gems
+source 'https://rubygems.org'
+
+# as gems que serão carregadas
+gem 'cpf_utils'
+gem 'lerolero_generator'
