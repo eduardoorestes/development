@@ -34,7 +34,9 @@
     * TABELA DB - snake_case (plural)
 
 
-*Variavel de instancia - variavel para cada objeto
+* Variavel de instancia (tambem chamada de variavel de sessão)- variavel para cada objeto, é acessível em todos métodos
+    Se ela está sendo usada no CONTROLLER, será acessivel na VIEW também, desde que:
+        * o nome do CONTROLLER sejá o nome da pasta da VIEW e o nome do ACTION sejá o nome do arquivo da VIEW
     @var
 
 
@@ -170,6 +172,11 @@ RAILS CONSOLE
         rails destroy name_controller_model_... - remove o controller, model ou o que for informado
         SE QUISER CRIAR UMA VIEW
         rails generate controller name_controller action01 action02 - vai criar o controlller e as action/view
+    
+    RAILS MODEL
+        Model.first -> retorna o primeiro elemento
+        Model.last -> retorna o último elemento
+        Model.all -> retorna todos elementos (ARRAY)
 
 MIGRATIONS
     O rails cria a primary key, o created at e updated at automaticamente, esses campos não precisam ser incluidos na migration.
@@ -207,3 +214,52 @@ ROTAS
         get '/path', to: 'controller#action'
         caso o path seja igual ao controller#action, controller#action pode ser suprimido
         Ex.: get 'welcome/index', to: 'welcome#index'  =>  get 'welcome/index'
+
+    ROTAS DO RAILS SÃO AUTOMATIZADAS
+        -> Nas rotas onde elas esperam um ID, basta passar apenas o OBJETO, porque a rota vai pegar o ID dela.
+        Ex.:
+            objeto_path(objeto.id) == objeto
+            <%= link_to 'Editar', edit_coin_path(objeto.id) %> => <%= link_to 'Editar', edit_coin_path(objeto) %>
+        -> Quando passado apenas o OBJETO, ele entende que existe uma rota para ele adicionando o _path ocultamente
+        Ex.:
+            <%= link_to 'Mostrar', objeto_path(objecto.id) %> => <%= link_to 'Mostrar', objeto_path(objecto) %> => <%= link_to 'Mostrar', objeto %>
+            Quando for para o delete, deve ser informado o metodo
+            <%= link_to 'Apagar', objeto, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+
+AMBIENTE RAILS
+    Produção
+    Desenvolvimento
+    Teste
+    É possível verificar com Rails.env
+        Ex.: Rails.env.production?
+
+QUERY através de GET
+    Depois da URL/ adicionar o ? e passar a chave=valor para ficar disponivel no CONTROLLER através de um HASH
+    E para adicionar mais de um parametro, colocar o &
+    Ex.:
+        URL/?nome=fulano
+        CONTROLLER -> @nome = params[:nome]
+
+LAYOUT
+    é um template padrão para as views. (em app/views/layouts/...)
+    ele é definido no controller, com o layout padrão application
+    Ex.:
+        layout 'nome_layout'
+
+PARTIALS
+    permite renderizar uma VIEW dentro de outra.
+    Ex.:
+        pagina.html.erb
+            chamar a partial <%= render 'partial' %>
+            passando um params/variavel
+                <%= render 'partial', objeto: @objeto %> 
+        na mesma pasta:
+            _partial.html.erb
+                colocar o conteudo nessa PARTIAL
+
+FILTERS
+    São ações feitas antes ou depois de executar um método
+    Ex.:
+        before_action :metodo, only: [:show, :edit, :update, :destroy]
+
