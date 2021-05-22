@@ -31,7 +31,7 @@
     * VIEW - snake_case
     * VARIAVEIS - 
     * CAMPO DB - snake_case (singular?!)
-    * TABELA DB -  snake_case (plural)
+    * TABELA DB - snake_case (plural)
 
 
 *Variavel de instancia - variavel para cada objeto
@@ -68,8 +68,6 @@ CONFIG DB
     em config/database.yml
         pesquisa internet -> database.yml mysql
         quando criar a app - rails new nome_projeto --database=mysql
-
-
 
 
 Módulos - são similares as classes em relação ao fato de que também armazenam uma coleção de métodos, constantes e outras definições de módulos e classes.
@@ -174,12 +172,16 @@ RAILS CONSOLE
         rails generate controller name_controller action01 action02 - vai criar o controlller e as action/view
 
 MIGRATIONS
-    O rails cria a primary key, o created at e updated at.
+    O rails cria a primary key, o created at e updated at automaticamente, esses campos não precisam ser incluidos na migration.
 
 HELPERS
     são métodos prontos que podem ser usados nas VIEWS. Faz com que menos código seja escrito para que se consiga o mesmo resultado.
     Ex.: link_to
         <%= link_to 'Texto', Path/Url %> (PATH/URL é verificado no INFO ROUTES Ex.: welcome_index_path) ->
+
+    CRIANDO HELPERS
+        Em app/helpers - se for para toda a aplicação, colocar no application_helper, se for para uma view, colar no helper com o nome da view.
+        É semelhante ao método.
 
 ROTAS
     HELPER - PATH / URL -> é o caminho do link para ser usado no código
@@ -187,3 +189,21 @@ ROTAS
     PATH -> é a url, que é usada no navegador
     CONTROLLER # ACTION -> é o controller e a action
 
+    ROTA PARA O HOME/INDEX
+        Em config/routes.rb adicionar
+            root 'path_url_desejado'
+    
+    RESOURCES
+        Em routes.rb
+            resources :names (pode ser o nome pluralizado do model)
+            vai criar todas as rotas para esse objeto, permitindo trabalhar com o CRUD
+                GET - /names (lista todos nomes), /names/new (retorna um HTML FORM para criar um novo nome),
+                /names/:id (exibe um nome especifico), /names/:id/edit (retorna um HTML FORM para editar um nome específico)
+                POST - /names (cria um novo nome)
+                PATCH/PUT - /names/:id (atualiza um nome especifico)
+                DELETE - /names/:id (deleta uma nome)
+        
+    CRIANDO ROTAS ESPECÍFICAS
+        get '/path', to: 'controller#action'
+        caso o path seja igual ao controller#action, controller#action pode ser suprimido
+        Ex.: get 'welcome/index', to: 'welcome#index'  =>  get 'welcome/index'
