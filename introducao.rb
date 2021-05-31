@@ -263,3 +263,15 @@ FILTERS
     Ex.:
         before_action :metodo, only: [:show, :edit, :update, :destroy]
 
+PERMISSÕES DE PARAMETROS
+    Geralmente é criado um metodos x_params como PRIVATE no controller onde vão ser definidas as permissões
+
+    Ex.:
+    private
+        def x_params
+            params.require(:x).permit(:description, :state, :city)
+        end
+        faz um require de :x que vem dentro de params e permite alterar apenas description, state e city.
+
+TASKS
+    Para listar: rails -T
