@@ -274,4 +274,33 @@ PERMISSÕES DE PARAMETROS
         faz um require de :x que vem dentro de params e permite alterar apenas description, state e city.
 
 TASKS
-    Para listar: rails -T
+    Para listar todas as tasks possíveis: rails -T
+        rails db:drop
+        rails db:migrate
+    Para gerar uma tasks
+        rails g task namespace name_task
+
+DB/Seeds
+    é usado para inserir dados iniciais no banco, quando é iniciada a aplicação ela pode precisar de algumas informações
+    já inseridas no banco (ex.: estados, cidades...)
+    Depois de inserir os dados, rodar no terminal 
+        rails db:seed
+
+YIELD
+    blocos de código que é permitido passar para um outro local.
+    Ex.:
+        Se for muito grande
+        metodo(var1, var2) do
+            bloco de código que vai ser passado...
+        end
+
+        Se for pequeno ( uma única linha )
+        metodo(var1, var2) { bloco de código }
+
+        def metodo(var1, var2)
+            ...
+            yield (aqui vai entrar o bloco citado acima)
+            ...
+        end
+
+
