@@ -181,6 +181,44 @@ RAILS CONSOLE
 MIGRATIONS
     O rails cria a primary key, o created at e updated at automaticamente, esses campos não precisam ser incluidos na migration.
 
+    create table:
+        ...
+        def change
+            create_table :coins do |t|
+                t.string :description
+                t.string :name
+                ...
+            end
+        end
+
+        table com associação
+
+            a tabela referenciada NameTable com os campos field01 e field02
+            rails g scaffold NameTable field01:string field02:string
+            vai gerar a migration, models, controllers,...
+                ...
+                def change
+                    create_table :name_table do |t|
+                        t.string :field01
+                        t.string :field02
+
+                        t.timestamps
+                    end
+                end
+            criar um campo na tabela que referencia essa com o nome de 
+
+
+    Corrigindo uma migration
+        1º opção manual -> trocar o nome do campo na migration e ajustando o nome dos arquivos (controller, model, views)
+
+        2º opção -> 
+            - revertendo a migration - rails db:rollback (faz com que verifique a última migration e dezfaz ela no bando de dados,
+        se quiser que ele volte mais migration rodar rails db:rollback step=NumeroDeVezes)
+            - remover o scaffold - rails d scaffold NameScaffold (remove tudo que foi criado com ele(view, controller, model))
+            - se for o caso, criar o scaffold na maneira correta
+            - se tiver campos nas task, ajustar ela em lib/tasks/dev.rake - fazer os ajustes dos campos que foram corrijos
+
+
 HELPERS
     são métodos prontos que podem ser usados nas VIEWS. Faz com que menos código seja escrito para que se consiga o mesmo resultado.
     Ex.: link_to
@@ -303,4 +341,7 @@ YIELD
             ...
         end
 
+find_or_create_by
+    verificar se já existe o elemento e se ele encontrar no banco de dados, ele NÃO cria. Caso ele NÃO encontre, ele cria.
 
+MODELANDO
