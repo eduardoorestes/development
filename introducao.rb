@@ -26,12 +26,13 @@
 * Convenções
     * CLASSE - CamelCase    ExemploClasse (singular)
     * METODO - snake_case   exemplo_metodo
-    * MODEL - CamelCase (singular)
+    * MODEL - CamelCase (singular - representa a tabela que é no plural)
     * CONTROLLER - snake_case (plural seguido de controller.rb - name_controller.rb)
     * VIEW - snake_case
     * VARIAVEIS - 
     * CAMPO DB - snake_case (singular?!)
     * TABELA DB - snake_case (plural)
+    * MIGRATION - CamelCase (primeira maiuscula) AddXToY ou RemoveXFromY e os fields snake_case 
 
 
 * Variavel de instancia (tambem chamada de variavel de sessão)- variavel para cada objeto, é acessível em todos métodos
@@ -42,6 +43,13 @@
 
 * Metodo construtor
     - permite inicializar um objeto com dados "padrão"
+
+* Active Record - é o que gerencia as tabelas
+
+* Associações
+    - belongs_to: pertence a um Objeto/Tabela (geralmente do lado de quem tem a FK)
+    - has_many: tem muitos Objeto/Tabela (nesse caso o model é no plural)
+    o ideal é colocar a relação nos dois MODELS -> x belongs_to y   -   y has_many x
 
 =end
 
@@ -180,6 +188,7 @@ RAILS CONSOLE
 
 MIGRATIONS
     O rails cria a primary key, o created at e updated at automaticamente, esses campos não precisam ser incluidos na migration.
+    CamelCase (primeira maiuscula)
 
     create table:
         ...
@@ -202,11 +211,21 @@ MIGRATIONS
                         t.string :field01
                         t.string :field02
 
+
                         t.timestamps
                     end
                 end
             criar um campo na tabela que referencia essa com o nome de 
 
+            Migration standalone
+            Migração apenas para remover ou adicionar campos
+                rails g migration AddFieldToTables (nome da tabela e não do model) name_field:references (com o :references ele identifica que é chave estrangeira (vai adicionar _id no final do nome do campo), mas o campo é no singular e deve ser o mesmo nome no MODEL referenciado)
+                AddXToY ou RemoveXFromY e os campos snake_case
+                - depois rodar o rails db:migrate
+                - ajustar o model - belongs_to (nesse caso)
+                    belongs_to :name_model_referenced (o mesmo nome do campo, quando for setado é obrigatorio preencher esse campo, se não quiser que sejá obrigatorio colocar o optional: true -> belongs_to :name_model_referenced, optional: true)
+                    e no outro model, ajutas para ter muitos (o model referenciado para has_many é no plural)
+                    has_many :models
 
     Corrigindo uma migration
         1º opção manual -> trocar o nome do campo na migration e ajustando o nome dos arquivos (controller, model, views)
@@ -344,4 +363,47 @@ YIELD
 find_or_create_by
     verificar se já existe o elemento e se ele encontrar no banco de dados, ele NÃO cria. Caso ele NÃO encontre, ele cria.
 
-MODELANDO
+COOKIES
+    Guarda no navegador uma informação qualquer.
+        Para salvar o cookie
+            cookies[:nome] = 'valor para ser salvo'
+        Para acessar na view
+            <%= cookies[:nome] %>
+
+SESSIONS
+    Guarda um valor na session do servidor
+        Para salvar a session
+            session[:nome] = 'valor para ser salvo'
+        Para acessar na view
+            <%= session[:nome] %>
+
+ASSET PIPELINE (rails app/assets/stylesheets)
+    Prove um framework para concatenar, minificar ou comprimir os assets javascript e css. Depende de um runtime instalado(pode ser o node.js)
+        app/assets -> para assets criados pelo próprio Rails
+        lib/assets -> para assets criados pelo programador
+        vendor/assets -> para assets de terceiros
+            Recomendado colcoar nessa estrutura (cada um nas suas respectivas pastas "assets/stylesheets, assets/javascripts, assets/images...")
+
+        CSS - application.css
+            *= require_tree . -> carrega todos os arquivos que estão na pasta desse arquivo, porque o camminho começa no .
+            *= require_self -> carrega o proprio arquivo
+
+        JS - application.js
+            //= require_tree . -> carrega todos os arquivos que estão na pasta desse arquivo, porque o camminho começa no .
+
+    Para não carregar todos os arquivos em todas as páginas, o ideal é separar por controller
+        1º remover o require_tree . do application para não carregar tudo (tanto no css quanto no js)
+        2° para carregar apenas os especificos, em cada <head>
+            <%= javascript_include_tag 'application' ... %> (o que vai para todas)
+            <%= stylesheet_link_tag 'application' ... %> (o que vai para todas)
+            ADICIONAR
+                <%= javascript_include_tag params[:controller] ... %> (baseado no nome do controller e é o que vai para esse especifico)
+                <%= stylesheet_link_tag params[:controller] ... %> (baseado no nome do controller e é o que vai para esse especifico)
+            E
+                verificar se tem algum que nao tenha controller e adicionar (ex.: scaffolds)
+        3° em config/initializers/assets.rb adicionar os arquivos para precompilar para eles ficarem disponivel para serem carregados
+            Rails.application.config.assets.precompile += %w( name01.css name02.css )
+            Rails.application.config.assets.precompile += %w( name01.js name02.js )
+
+    Para deixar funcionando no modo de produção, rodar o comando -> rails assets:precomile (vai compilar todos os assets na pasta public/assets)
+    (para remove esses arquivo compilados -> rails assets:clobber)
