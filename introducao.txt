@@ -407,3 +407,12 @@ ASSET PIPELINE (rails app/assets/stylesheets)
 
     Para deixar funcionando no modo de produção, rodar o comando -> rails assets:precomile (vai compilar todos os assets na pasta public/assets)
     (para remove esses arquivo compilados -> rails assets:clobber)
+
+YARN
+    Gerenciador de pacotes para bibliotecas javascipt. Necessário ter o node instalado.
+    https://yarnpkg.com/pt-BR/
+    O arquivo package.json é parecido com o Gemfile. Nesse arquivo ficam todas as referencia das bibiotecas javascript usadas no projeto.
+    Após instalar o Yarn e adicionar as bibliotecas no package.json, rodar o comando yarn install, para gerar as biliotecas nas pasta node_modules.
+
+
+

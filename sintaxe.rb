@@ -4,6 +4,7 @@ IMAGEM
 LINK
     <%= link_to 'texto', path %>
     <%= link_to 'texto', path, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'texto', path, class:'btn btn-primary, role:'button' %>
     
 DATA
     <%= Date.today.strftime('%d/%m/%Y') %>
