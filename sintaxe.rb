@@ -5,7 +5,10 @@ LINK
     <%= link_to 'texto', path %>
     <%= link_to 'texto', path, method: :delete, data: { confirm: 'Are you sure?' } %>
     <%= link_to 'texto', path, class:'btn btn-primary, role:'button' %>
-    
+
+SUBMIT
+    <%= form.submit nil, class:"btn btn-primary" %>
+
 DATA
     <%= Date.today.strftime('%d/%m/%Y') %>
 
